@@ -18,4 +18,14 @@ To check your version, go to **Settings** and **scroll down**. It should be at t
 The script may or may not work in future or past versions. If you think it does not work in your version,
 feel free to open a PR or an issue so i can see what i can do!
 
+## Why i dont use the available MessagePack libraries in my code
+
+I initially tried using the available libraries which still seem to be updated to this day 
+(notably ormsgpack and msgpack) but they never worked for one reason or another. I then 
+asked some LLM's to decode the metadata just to see what they would say, and they said 
+that the MessagePack format that was used to encode the metadata was heavily altered.
+
+Basicly, there's no way i was going to decode it using the normal libraries available. So i 
+had to do it myself.
+
 
