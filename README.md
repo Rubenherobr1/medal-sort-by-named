@@ -25,8 +25,10 @@ feel free to open a PR or an issue so i can see what i can do!
 I initially tried using the available libraries which still seem to be updated (at the point of
 writing this), notably [ormsgpack](https://github.com/ormsgpack/ormsgpack) and 
 [msgpack](https://github.com/msgpack/msgpack-python/), but they never worked for one reason or 
-another. I then asked some LLM's to decode the metadata just to see what they would say, and they 
-said that the MessagePack format that was used to encode the metadata was heavily altered.
+another. 
+
+I then asked some LLM's to decode the metadata just to see what they would say, and they 
+said that the MessagePack encoding that was used was heavily altered.
 
 Basicly, there's no way i was going to decode it using the normal libraries available. So i 
 had to do it myself.
