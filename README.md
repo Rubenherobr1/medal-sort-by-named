@@ -15,5 +15,7 @@ This script was developed for the following versions:
 
 To check your version, go to **Settings** and **scroll down**. It should be at the bottom.
 
-It may or may not work in future or past versions. If you think the script does not work in your version,
+The script may or may not work in future or past versions. If you think it does not work in your version,
 feel free to open a PR or an issue so i can see what i can do!
+
+
