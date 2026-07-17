@@ -40,7 +40,6 @@ for id, path, metadata in resultSet:
     upperBound = metadata.index(b"\xc7\x0cclipDuration")
     titleSection = metadata[lowerBound : upperBound]
 
-
     '''
     The hex code that appears inbetween the title and clipDuration keys
     when a clip does not have a name is "\x07".
