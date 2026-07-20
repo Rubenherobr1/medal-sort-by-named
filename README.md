@@ -20,15 +20,4 @@ To check your version, go to **Settings** and **scroll down**. It should be at t
 The script may or may not work in future or past versions. If you think it does not work in your version,
 feel free to open a PR or an issue so i can see what i can do!
 
-## Limitations
-
-### Why i dont use the available [MessagePack](https://msgpack.org/) libraries in my code
-
-I initially tried using the available libraries which still seem to be updated (at the point of
-writing this), notably [ormsgpack](https://github.com/ormsgpack/ormsgpack) and 
-[msgpack](https://github.com/msgpack/msgpack-python/), but they never worked for one reason or 
-another. 
-
-I'm not sure if it's because a modified MessagePack encoding was used, but regardless, i just decided to not use them.
-
 
