@@ -1,36 +1,45 @@
 import sqlite3 as sqlite
+import pyshortcuts as pyshort # https://github.com/newville/pyshortcuts - pip install pyshortcuts
+
 from pathlib import Path
 
 
-# the function below is based off of the MessagePack specification (MessagePack is the encoding used in the clip metadata)
-# https://github.com/msgpack/msgpack/blob/master/spec.md#str-format-family
+def decodeTitle(metadata, titleIDPos):
+    titleID = bin(metadata[titleIDPos]).replace("0b", "")
+    sizeID = int(titleID[:4], 2)
 
-class Format:
-    #size of the first identifier byte when the value of a key is a string
-    fixstr = int("10111111", 2) #in this case, it's the max value that the first byte can have
-    str8 = int("d9", 16)
-    str16 = int("da", 16)
-    str32 = int("db", 16)
+    str8, str16 = int("C", 16), int("D", 16) 
+    
+
+    # the length of the title is in the next byte
+    if sizeID == str8:
+        titleLen = metadata[titleIDPos + 1]
+        titlePos = titleIDPos + 2
+
+    # the length of the title is the next 2 bytes, as if the 1st of the 
+    # two bytes was read together with the second byte. This is the limit
+    # for medal names (280 charecters)
+
+    elif sizeID == str16:
+        byte1, byte2 = (
+            bin(metadata[titleIDPos + i]).replace("0b", "") for i in (1, 2)
+        )
+
+        titleLen = int(byte1 + byte2, 2)
+        titlePos = titleIDPos + 3
+
+    # the length of the title is the 1st nibble of the titleID byte
+    else:
+        if sizeID == 0:
+            return None
+        
+        titleLen = sizeID
+        titlePos = titleIDPos + 1
+
+    return metadata[titlePos : titlePos + titleLen]
 
 
-def decodeStr(bTitle: bytes):
-    firstByte = bTitle[0]
-
-    match(firstByte):
-        case Format.str8: newTitle = bTitle[2:]
-        case Format.str16: newTitle = bTitle[3:]
-        case Format.str32: newTitle = bTitle[5:]
-
-        case _:
-            if firstByte <= Format.fixstr:
-                newTitle = bTitle[1:]
-            else:
-                print(f"The first identifier byte dosen't have a valid value ({firstByte}).")
-
-    return str(newTitle)
-
-
-unnamedCount = namedCount = 0
+#find db path
 medalPath = Path(Path().home(), "AppData", "Roaming", "Medal") 
 
 for path in medalPath.iterdir():
@@ -44,50 +53,32 @@ for path in medalPath.iterdir():
             break
 
 
-#connect to sqlite database and get the video id, it's path and it's metadata
+#connect to sqlite database and get the video path and it's metadata
 db = sqlite.connect(dbPath) 
-resultSet = db.execute("SELECT local_content_id, video_path, metadata FROM contents")
+resultSet = db.execute("SELECT video_path, metadata FROM contents")
 
 print("Connected to database and executed query.")
 
 
-for id, path, metadata in resultSet: 
-    #define bounds where the title for the video is in
-    lowerBound = metadata.index(b"title") + len("title") #byte that's after the title key
+unnamedCount = namedCount = 0
 
-    '''
-    The hex code that appears when "clipDuration" is used as a clip name 
-    is "\xc7\x0c". it will be repeated twice, if that is the case, since
-    there is also a key that's named "clipDuration", but i cannot allow
-    it since i use that key for my upper bound.
-    '''
+for path, metadata in resultSet: 
+    #get the title, if it exists
+    titleIDPos = metadata.index(b"title") + len("title") #byte that's after the title key
+    title = decodeTitle(metadata, titleIDPos)
 
-    if metadata.count(b"\xc7\x0cclipDuration") > 1: #
-        raise NotImplementedError("Do not name your clips 'clipDuration'. Alternatively, open an issue on github and this error will be adressed.")
-
-    upperBound = metadata.index(b"\xc7\x0cclipDuration")
-    bTitle = metadata[lowerBound : upperBound]
-
-    '''
-    The hex code that appears inbetween the title and clipDuration keys
-    when a clip does not have a name is "\x07".
-    '''
-
-    if bTitle == b"\x07":
-        unnamedCount += 1
+    if title is None:
+        unnamedCount+=1
         continue
-    else: 
-        namedCount += 1
-    
-    title = decodeStr(bTitle)
-    
-    #print(f"{title}\n")
+    else:
+        namedCount+=1
+
 
 
 '''
 TODO:
-- Maybe save the clips to an album on Medal. If i cant do that, copy them to a folder.
-- Look at the MessagePack specification for the part behind the title. Its the same.
+- Save the clips as shortcuts in a folder to occupy almost no space
+- Maybe save the clips to an album on Medal.
 '''
 
 
