@@ -18,7 +18,7 @@ def decodeTitle(metadata, titleIDPos):
 
     # the length of the title is the next 2 bytes, as if the 1st of the 
     # two bytes was read together with the second byte. This is the limit
-    # for medal names (280 charecters)
+    # for medal clip names (280 bytes)
 
     elif sizeID == str16:
         byte1, byte2 = (
@@ -60,7 +60,7 @@ resultSet = db.execute("SELECT video_path, metadata FROM contents")
 print("Connected to database and executed query.")
 
 
-unnamedCount = namedCount = 0
+namedCount = 0
 
 for path, metadata in resultSet: 
     # get the title, if it exists
@@ -68,7 +68,6 @@ for path, metadata in resultSet:
     title = decodeTitle(metadata, titleIDPos)
 
     if title is None:
-        unnamedCount+=1
         continue
     else:
         namedCount+=1
