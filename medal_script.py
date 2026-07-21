@@ -6,8 +6,10 @@ from pathlib import Path
 
 def decodeTitle(metadata, titleIDPos):
     titleID = bin(metadata[titleIDPos]).replace("0b", "")
-    sizeID = int(titleID[:4], 2)
+    titleID = "0" * (8 - len(titleID)) + titleID # if titleID is not 8 bytes, this will ensure the representation will have 8 bytes regardless, so the splicing og the string is done correctly
 
+    sizeID = int(titleID[:4], 2)
+    
     str8, str16 = int("C", 16), int("D", 16) 
 
 
@@ -63,6 +65,8 @@ print("Connected to database and executed query.")
 namedCount = 0
 
 for path, metadata in resultSet: 
+    #print(f"{metadata}\n\n")
+
     # get the title, if it exists
     titleIDPos = metadata.index(b"title") + len("title") # byte that's after the title key
     title = decodeTitle(metadata, titleIDPos)
@@ -71,6 +75,7 @@ for path, metadata in resultSet:
         continue
     else:
         namedCount+=1
+
 
 
 
