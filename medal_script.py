@@ -43,7 +43,7 @@ def decodeTitle(metadata, titleIDPos):
         titleLen = sizeID
         titlePos = titleIDPos + 1
 
-    return metadata[titlePos : titlePos + titleLen]
+    return metadata[titlePos : titlePos + titleLen].decode("utf-8")
 
 
 # find db path
