@@ -71,10 +71,10 @@ for path, metadata in resultSet:
     titleIDPos = metadata.index(b"title") + len("title") # byte that's after the title key
     title = decodeTitle(metadata, titleIDPos)
 
-    if title is None:
-        continue
-    else:
-        namedCount+=1
+    if title is None: continue
+    
+    print(f"Found a named clip: '{title}'")
+    namedCount+=1
 
 
 
