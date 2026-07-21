@@ -56,4 +56,5 @@ python libraries.
 [0.2.0]: https://github.com/rubenherobr1/medal-sort-by-named/releases/tag/v0.2.0
 [0.3.0-alpha.1]: https://github.com/rubenherobr1/medal-sort-by-named/releases/tag/v0.3.0-alpha.1
 [0.3.0-alpha.2]: https://github.com/rubenherobr1/medal-sort-by-named/releases/tag/v0.3.0-alpha.2
+[0.3.0]: https://github.com/rubenherobr1/medal-sort-by-named/releases/tag/v0.3.0
 
