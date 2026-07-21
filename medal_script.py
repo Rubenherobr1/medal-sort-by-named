@@ -103,7 +103,7 @@ for id, path, metadata in resultSet:
     
     # copy clip to the target folder
     targetPath = clipsDir / (title + path.suffix)
-    path.copy(targetPath) # still runs if the file exists, to prevent possible errors from medal's db data changing
+    path.copy(targetPath, preserve_metadata = True) # still runs if the file exists, to prevent possible errors from medal's db data changing
 
 
 print(f"\nFinished sorting through clips. Copied {len(titleList)} files")
