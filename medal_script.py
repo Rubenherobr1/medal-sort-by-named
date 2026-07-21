@@ -9,7 +9,7 @@ def decodeTitle(metadata, titleIDPos):
     sizeID = int(titleID[:4], 2)
 
     str8, str16 = int("C", 16), int("D", 16) 
-    
+
 
     # the length of the title is in the next byte
     if sizeID == str8:
@@ -39,21 +39,21 @@ def decodeTitle(metadata, titleIDPos):
     return metadata[titlePos : titlePos + titleLen]
 
 
-#find db path
+# find db path
 medalPath = Path(Path().home(), "AppData", "Roaming", "Medal") 
 
 for path in medalPath.iterdir():
     if path.suffix == ".db":
-        nIndex = len("medal-") #yields the index that's right after the hyphen, which includes only numbers
+        nIndex = len("medal-") # yields the index that's right after the hyphen, which includes only numbers
         
-        if path.stem[nIndex].isnumeric(): #ignores medal-guest.db and CustomGameDatabase.db
+        if path.stem[nIndex].isnumeric(): # ignores medal-guest.db and CustomGameDatabase.db
             dbPath = medalPath / path.name
             print(f"Path to database: {dbPath}")
             
             break
 
 
-#connect to sqlite database and get the video path and it's metadata
+# connect to sqlite database and get the video path and it's metadata
 db = sqlite.connect(dbPath) 
 resultSet = db.execute("SELECT video_path, metadata FROM contents")
 
@@ -63,8 +63,8 @@ print("Connected to database and executed query.")
 unnamedCount = namedCount = 0
 
 for path, metadata in resultSet: 
-    #get the title, if it exists
-    titleIDPos = metadata.index(b"title") + len("title") #byte that's after the title key
+    # get the title, if it exists
+    titleIDPos = metadata.index(b"title") + len("title") # byte that's after the title key
     title = decodeTitle(metadata, titleIDPos)
 
     if title is None:
