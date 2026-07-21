@@ -62,7 +62,7 @@ for path in medalPath.iterdir():
 db = sqlite.connect(dbPath) 
 resultSet = db.execute("SELECT remote_content_id, video_path, metadata FROM contents")
 
-print("Connected to database and executed query")
+print("Connected to database and executed query\n")
 
 
 # create the folder if it dosen't exist yet
@@ -103,7 +103,7 @@ for id, path, metadata in resultSet:
     path.copy(targetPath) # still runs if the file exists, to prevent possible errors from medal's db data changing
 
 
-print(f"Finished sorting through clips. Copied {len(titleList)} files")
+print(f"\nFinished sorting through clips. Copied {len(titleList)} files")
 
 
 '''
