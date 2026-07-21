@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ### What's new
 
-- Generalize the decoding of the title to all possible titles.
+- Generalize the decoding of the title to all possible titles
 - Improve comments and README.md
 
 
@@ -28,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 ### What's new
 
 - Decode the title correctly, replacing the old method of following 
-MessagePack's specification on their encoding.
+MessagePack's specification on their encoding
 - Improve comments formatting and README.md
 
 
@@ -46,9 +46,9 @@ MessagePack's specification on their encoding.
 ### What's new
 
 - Get the clip's title and it's byte prefix, which follows MessagePack's
-str format.
+str format
 - Improve README.md and explain why i dont use the available MessagePack
-python libraries.
+python libraries
 
 
 ## [0.1.0] - 2026-07-17
