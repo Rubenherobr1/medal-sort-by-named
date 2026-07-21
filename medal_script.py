@@ -49,7 +49,7 @@ medalPath = Path(Path.home(), "AppData", "Roaming", "Medal")
 
 for path in medalPath.iterdir():
     if path.suffix == ".db":
-        nIndex = len("medal-") # yields the index that's right after the hyphen, which includes only numbers
+        nIndex = len("medal-") # yields the index that's right after the hyphen, which includes only numbers if its the target db
         
         if path.stem[nIndex].isnumeric(): # ignores medal-guest.db and CustomGameDatabase.db
             dbPath = medalPath / path.name
